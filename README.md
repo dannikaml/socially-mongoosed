@@ -26,6 +26,9 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 geeksforgeeks:
 - https://www.geeksforgeeks.org/node-js-process-cwd-method/#
 
+stackoverflow:
+- https://stackoverflow.com/questions/19786075/mongoose-deleting-pull-a-document-within-an-array-does-not-work-with-objectid
+
 google:
 - https://www.google.com/search?q=subdocuments+in+mongodb&rlz=1C1CHBF_enUS1037US1037&sxsrf=APwXEdcYHQJNKbGBTgBCiaHa0YNtoH74qQ%3A1682606184058&ei=aIhKZM2DA6ehqtsP7v-tOA&oq=subdocument&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAxgBMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMggIABCKBRCGAzoHCCMQ6gIQJzoNCAAQjwEQ6gIQtAIYAToECCMQJzoICAAQigUQkQI6DgguEMcBELEDENEDEIAEOggIABCABBCxAzoOCC4QgAQQsQMQxwEQ0QM6CwgAEIAEELEDEIMBOg4ILhCKBRDHARCvARCRAjoHCAAQigUQQzoFCC4QgAQ6CwguEIAEEMcBENEDOgsILhCKBRCxAxCDAToLCC4QgAQQsQMQ1AI6CwgAEIoFELEDEJECOgsIABCABBCxAxDJAzoICAAQigUQkgM6CAgAEIAEEMkDOgcIABCABBAKSgQIQRgAUM8KWK8gYOw2aAFwAXgAgAGkAYgB_wiSAQM2LjWYAQCgAQGwARTAAQHaAQYIARABGAo&sclient=gws-wiz-serp
 
