@@ -6,15 +6,18 @@ const router = express.Router();
 
 
 // GET all users
-router.get('/', async (req, res) => {
-    try {
-      const users = await User.find().populate('thoughts').populate('friends');
-      res.json(users);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json(err);
-    }
-  });
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find().populate({
+      path: 'thoughts friends',
+      select: '-__v'
+    });
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
   
 
 
