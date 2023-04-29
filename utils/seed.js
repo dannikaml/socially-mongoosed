@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
-const { Thought, User } = require('./models');
-const { users, thoughts } = require('./data');
+const Users = require('../models/User');
+const Thought = require('../models/Thought');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socially', {
+
+const { user, thoughts } = require('./data');
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socially-mongoosed', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
 });
 
 const seedDatabase = async () => {
@@ -14,7 +15,8 @@ const seedDatabase = async () => {
     await mongoose.connection.dropDatabase();
 
     // Create users and add them to the database
-    const createdUsers = await User.create(users);
+    const createdUsers = await Users.insertMany(user);
+
 
     // Replace the usernames in the thoughts array with their corresponding user IDs
     const thoughtsWithUserIds = thoughts.map((thought) => ({
