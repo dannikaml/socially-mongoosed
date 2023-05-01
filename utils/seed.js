@@ -1,40 +1,79 @@
-const mongoose = require('mongoose');
-const Users = require('../models/User');
-const Thought = require('../models/Thought');
+const connection = require('../config/connection');
+const { User, Thought } = require('../models');
+const { getRandomUser, getRandomThought } = require('./data');
 
+connection.on('error', (err) => err);
 
-const { user, thoughts } = require('./data');
+connection.once('open', async () => {
+  console.log('connected');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socially-mongoosed', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+  // Drop existing Users
+  await User.deleteMany({});
 
-const seedDatabase = async () => {
-  try {
-    await mongoose.connection.dropDatabase();
+  // Drop existing Thoughts
+  await Thought.deleteMany({});
 
-    // Create users and add them to the database
-    const createdUsers = await Users.insertMany(user);
+  // Create empty array to hold the Thoughts
+  const thoughts = [];
 
+  // Loop 20 times -- add Thoughts to the Thoughts array
+  for (let i = 0; i < 20; i++) {
+    // Get some random thought objects using helper functions that we imported from ./data
+    const reactions = getRandomThought(10);
 
-    // Replace the usernames in the thoughts array with their corresponding user IDs
-    const thoughtsWithUserIds = thoughts.map((thought) => ({
-      ...thought,
-      userId: createdUsers.find(user => user.username === thought.username)._id
-    }));
+    const thoughtText = `This is ${getRandomUser()}'s thought.`;
+    const userId = Math.floor(Math.random() * (99 - 18 + 1) + 18);
 
-    // Create thoughts and add them to the database
-    const createdThoughts = await Thought.create(thoughtsWithUserIds);
-
-    console.log('Database seeded successfully');
-    process.exit(0);
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
+    thoughts.push({
+      thoughtText,
+      userId,
+      reactions,
+    });
   }
-};
 
-seedDatabase();
+  // Add Thoughts to the collection and await the results
+  await Thought.collection.insertMany(thoughts);
 
+  // Create empty array to hold the Users
+  const users = [];
 
+  // Loop 50 times -- add Users to the Users array
+  for (let i = 0; i < 10; i++) {
+    const username = getRandomUser();
+    const email = `${username}@gmail.com`;
+    const thoughts = [];
+    const friends = [];
+
+    // Get a random number of thoughtIds between 1 and 5
+    const numThoughts = Math.floor(Math.random() * 5) + 1;
+
+    // Loop numThoughts times -- add a random thought to the thoughts array
+    for (let j = 0; j < numThoughts; j++) {
+      thoughts.push(thoughts[Math.floor(Math.random() * thoughts.length)]);
+    }
+
+    // Get a random number of friendIds between 1 and 5
+    const numFriends = Math.floor(Math.random() * 5) + 1;
+
+    // Loop numFriends times -- add a random friend to the friends array
+    for (let j = 0; j < numFriends; j++) {
+      friends.push(friends[Math.floor(Math.random() * friends.length)]);
+    }
+
+    users.push({
+      username,
+      email,
+      thoughts,
+      friends,
+    });
+  }
+
+  // Add Users to the collection and await the results
+  await User.collection.insertMany(users);
+
+  // Log out the seed data to indicate what should appear in the database
+  console.table(thoughts);
+  console.table(users);
+  console.info('Seeding complete! 🌱');
+  process.exit(0);
+});

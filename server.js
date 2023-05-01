@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('./config/connection');
 const routes = require('./routes');
-// const utils = require('./utils');
+
 
 const cwd = process.cwd();
 // console.log("Current working directory: ", process.cwd());
