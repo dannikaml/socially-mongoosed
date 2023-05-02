@@ -27,12 +27,13 @@ const userSchema = new Schema(
         ref: 'User'
       }
     ],
-
   },
   {
     toJSON: {
-      virtuals: true
+      virtuals: true,
+      getters: true,
     },
+    id: false,
   }
 );
 
@@ -40,8 +41,17 @@ userSchema.virtual('friendCount').get(function () {
   return this.friends.length;
 });
 
+// Middleware to remove associated thoughts when a user is removed
+userSchema.pre('remove', async function (next) {
+  try {
+    await Thought.deleteMany({ username: this.username });
+    next();
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 const User = model('User', userSchema);
 
 module.exports = User;
-
-
