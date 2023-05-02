@@ -16,7 +16,7 @@ connection.once('open', async () => {
   // Create empty array to hold the Thoughts
   const thoughts = [];
 
-  // Loop 20 times -- add Thoughts to the Thoughts array
+  // Loop to add Thoughts to the Thoughts array
   for (let i = 0; i < 20; i++) {
     // Get some random thought objects using helper functions that we imported from ./data
     const reactions = getRandomThought(10);
@@ -37,34 +37,43 @@ connection.once('open', async () => {
   // Create empty array to hold the Users
   const users = [];
 
-  // Loop 50 times -- add Users to the Users array
+  // Create a set to keep track of usernames that have already been used
+  const takenUsernames = new Set();
+
+  // Loop to add Users to the Users array
   for (let i = 0; i < 10; i++) {
-    const username = getRandomUser();
+    let username = getRandomUser();
+    while (takenUsernames.has(username)) {
+      // If the username is already taken, generate a new one
+      username = getRandomUser();
+    }
+    takenUsernames.add(username);
+
     const email = `${username}@gmail.com`;
-    const thoughts = [];
-    const friends = [];
+    const userThoughts = [];
+    const userFriends = [];
 
     // Get a random number of thoughtIds between 1 and 5
     const numThoughts = Math.floor(Math.random() * 5) + 1;
 
-    // Loop numThoughts times -- add a random thought to the thoughts array
+    // Loop to add a random thought to the userThoughts array
     for (let j = 0; j < numThoughts; j++) {
-      thoughts.push(thoughts[Math.floor(Math.random() * thoughts.length)]);
+      userThoughts.push(thoughts[Math.floor(Math.random() * thoughts.length)]);
     }
 
     // Get a random number of friendIds between 1 and 5
     const numFriends = Math.floor(Math.random() * 5) + 1;
 
-    // Loop numFriends times -- add a random friend to the friends array
+    // Loop to add a random friend to the userFriends array
     for (let j = 0; j < numFriends; j++) {
-      friends.push(friends[Math.floor(Math.random() * friends.length)]);
+      userFriends.push(users[Math.floor(Math.random() * users.length)]);
     }
 
     users.push({
       username,
       email,
-      thoughts,
-      friends,
+      thoughts: userThoughts,
+      friends: userFriends,
     });
   }
 
@@ -77,3 +86,4 @@ connection.once('open', async () => {
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });
+

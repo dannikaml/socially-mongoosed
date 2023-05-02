@@ -40,7 +40,11 @@ router.post('/', async (req, res) => {
 // PUT to update a thought by its _id
 router.put('/:thoughtId', async (req, res) => {
   try {
-    const thought = await Thought.findByIdAndUpdate(req.params.thoughtId, req.body, { new: true });
+    const thought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      req.body,
+      { new: true }
+    );
     if (!thought) {
       return res.status(404).json({ message: 'No thought found with this id!' });
     }
@@ -64,5 +68,6 @@ router.delete('/:thoughtId', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;

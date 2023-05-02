@@ -2,19 +2,19 @@ const users =
 [
   {
     username: 'Tove Lo',
-    email: 'wearesmart@example.com',
+    email: '',
     thoughts: [],
     friends: []
   },
   {
     username: 'Drake Graham',
-    email: 'stilltrying@example.com',
+    email: '',
     thoughts: [],
     friends: []
   },
   {
-    username: 'bobbydoe', // changed the username to something else
-    email: 'bobdoe@example.com', // changed the email to avoid duplicates
+    username: 'bobbydoe', 
+    email: '', 
     thoughts: [],
     friends: []
   },
@@ -52,6 +52,8 @@ const getRandomUser = () =>
 `${getRandomItem(users).username}`;
 
 // Gets random thought for a user
+// The function uses a loop to generate an array of objects, with each object 
+// representing a thought and its associated friend reactions.
 const getRandomThought = (int) => {
 const results = [];
 for (let i = 0; i < int; i++) {
